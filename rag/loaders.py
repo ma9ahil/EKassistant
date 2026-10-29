@@ -12,7 +12,7 @@ from rag.models import Document
 
 
 HEADERS = {
-    "User-Agent": "EnterpriseKnowledgeAssistant/0.1 (+portfolio RAG demo)"
+    "User-Agent": "EKassistant/0.1 (+portfolio RAG demo)"
 }
 
 

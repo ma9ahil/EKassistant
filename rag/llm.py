@@ -10,6 +10,7 @@ import requests
 
 from rag.config import MIN_RELEVANCE_SCORE
 from rag.conversation import recent_history
+from rag.demo import DemoBudgetExceeded, reserve_api_call
 
 
 UNSUPPORTED = "I couldn't find this information in the indexed GitLab handbook pages."
@@ -410,12 +411,14 @@ def generate_cohere_result(question: str, passages: list[dict], history: list[di
         with cohere.ClientV2(api_key=api_key, timeout=90) as client:
             answer = ""
             if has_evidence:
+                reserve_api_call()
                 response = client.chat(
                     model=model,
                     messages=[
                         {"role": "system", "content": "You are a grounded enterprise knowledge assistant."},
                         {"role": "user", "content": build_prompt(question, passages, history)},
                     ],
+                    request_options={"max_retries": 0},
                     temperature=0.1,
                     max_tokens=int(os.getenv("COHERE_MAX_TOKENS", "4096")),
                 )
@@ -432,6 +435,7 @@ def generate_cohere_result(question: str, passages: list[dict], history: list[di
                         model=model, used_fallback=False,
                     )
                 answer_basis = "general_knowledge"
+                reserve_api_call()
                 response = client.chat(
                     model=model,
                     messages=[
@@ -447,6 +451,7 @@ def generate_cohere_result(question: str, passages: list[dict], history: list[di
                         *recent_history(history),
                         {"role": "user", "content": question},
                     ],
+                    request_options={"max_retries": 0},
                     temperature=0.1,
                     max_tokens=int(os.getenv("COHERE_MAX_TOKENS", "4096")),
                 )
@@ -456,6 +461,8 @@ def generate_cohere_result(question: str, passages: list[dict], history: list[di
                         question, passages, provider="cohere", model=model,
                         error="Cohere returned no general-knowledge answer.",
                     )
+    except DemoBudgetExceeded as exc:
+        return fallback_result(question, passages, provider="cohere", model=model, error=str(exc))
     except ApiError as exc:
         return fallback_result(question, passages, provider="cohere", model=model,
                                error=f"Cohere API HTTP {exc.status_code}: {str(exc.body)[:500]}")

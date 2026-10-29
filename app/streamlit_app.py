@@ -16,6 +16,8 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
+from rag.bootstrap import ensure_knowledge_base
+from rag.demo import admit_question, demo_mode, question_limit
 from rag.conversation import recent_history, retrieval_question
 from rag.chunking import chunk_documents
 from rag.config import DEFAULT_TOP_K, FEEDBACK_PATH, SEED_URLS_PATH
@@ -31,8 +33,24 @@ except ModuleNotFoundError as exc:
 
 
 load_dotenv()
-st.set_page_config(page_title="Enterprise Knowledge Assistant", page_icon="📖", layout="wide")
+st.set_page_config(page_title="EKassistant", page_icon="📖", layout="wide")
 st.markdown((ROOT_DIR / "app" / "assets" / "styles.css").read_text(), unsafe_allow_html=True)
+
+
+DEMO_MODE = demo_mode()
+
+
+@st.cache_resource(show_spinner=False)
+def initialize_knowledge_base():
+    return ensure_knowledge_base()
+
+
+with st.spinner("Getting the handbook ready…"):
+    try:
+        ready_sections = initialize_knowledge_base()
+    except Exception:
+        st.error("The handbook is temporarily unavailable. Please try loading the app again shortly.")
+        st.stop()
 
 
 def scroll_to_answer(answer_id: str) -> None:
@@ -60,6 +78,8 @@ def scroll_to_answer(answer_id: str) -> None:
 
 
 def record_feedback(question: str, answer: str, rating: str, latency_ms: int) -> None:
+    if DEMO_MODE:
+        return
     exists = FEEDBACK_PATH.exists()
     with FEEDBACK_PATH.open("a", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
@@ -99,7 +119,7 @@ def build_demo_index(limit: int) -> tuple[int, list[str]]:
 
 
 st.markdown('<div class="eyebrow">YOUR HANDBOOK, CONNECTED</div>', unsafe_allow_html=True)
-st.title("Enterprise Knowledge Assistant")
+st.title("EKassistant")
 st.markdown(
     '<p class="welcome">Hi, I’m here to help you find answers in GitLab’s handbook, '
     'understand company processes, and explore related topics. I’ll clearly label '
@@ -113,18 +133,24 @@ st.markdown(
 
 with st.sidebar:
     st.markdown(
-        '<div class="sidebar-brand"><div class="brand-mark">KA</div>'
-        '<div class="brand-name">Knowledge Assistant<small>GitLab handbook workspace</small></div></div>',
+        '<div class="sidebar-brand"><div class="brand-mark">EK</div>'
+        '<div class="brand-name">EKassistant<small>GitLab handbook workspace</small></div></div>',
         unsafe_allow_html=True,
     )
     if st.button("New conversation", type="primary", use_container_width=True):
         st.session_state.messages = []
         st.session_state.pop("pending_question", None)
+        st.session_state.pop("pending_retry", None)
         for feedback_key in list(st.session_state):
             if feedback_key.startswith("feedback-"):
                 del st.session_state[feedback_key]
         st.rerun()
     st.caption("Remembers the last 3 exchanges in this session.")
+    if DEMO_MODE:
+        remaining = max(0, question_limit() - st.session_state.get("demo_questions", 0))
+        quota_status = st.empty()
+        quota_status.caption(f"Public demo · {remaining} questions remaining")
+        st.caption("Chat stays in this session; feedback storage is off. Questions are sent to the configured AI service.")
     st.divider()
     st.header("Answer preferences")
     top_k = st.slider(
@@ -141,36 +167,38 @@ with st.sidebar:
         disabled=answer_mode == "Handbook excerpts",
         help="For Cohere summaries: allow general guidance when the handbook cannot answer. Turn off for handbook-only answers.",
     )
-    st.divider()
-    with st.expander("Manage knowledge base"):
-        st.caption("Choose how many handbook pages to make available for answering questions. Updating replaces the current collection.")
-        st.metric("Searchable handbook sections", collection_count())
-        build_limit = st.slider("Handbook pages to include", min_value=10, max_value=50, value=30)
-        if st.button("Update knowledge base", use_container_width=True):
-            with st.spinner("Preparing handbook pages for search..."):
-                count, skipped = build_demo_index(build_limit)
-            st.session_state.index_status = {"count": count, "skipped": skipped}
-            st.rerun()
-        if "index_status" in st.session_state:
-            status = st.session_state.index_status
-            st.success(f"Knowledge base ready: {status['count']} searchable sections.")
-            if status["skipped"]:
-                with st.expander(f"Skipped {len(status['skipped'])} unavailable pages"):
-                    for item in status["skipped"]:
-                        st.write(item)
-    with st.expander("Technical details"):
-        debug_llm = st.checkbox("Show connection diagnostics", value=False)
-        provider = os.getenv("RAG_LLM_PROVIDER", "vercel")
-        default_model = "command-a-plus-05-2026" if provider == "cohere" else ""
-        model = os.getenv(f"{provider.upper()}_MODEL", default_model)
-        key_name = {"cohere": "COHERE_API_KEY", "vercel": "AI_GATEWAY_API_KEY",
-                    "openai": "OPENAI_API_KEY", "huggingface": "HF_TOKEN"}.get(provider)
-        has_key = bool(os.getenv(key_name)) if key_name else False
-        st.write(f"Provider: `{provider}`")
-        if model:
-            st.write(f"Model: `{model}`")
-        if key_name:
-            st.write(f"{key_name} loaded: `{'yes' if has_key else 'no'}`")
+    debug_llm = False
+    if not DEMO_MODE:
+        st.divider()
+        with st.expander("Manage knowledge base"):
+            st.caption("Choose how many handbook pages to make available for answering questions. Updating replaces the current collection.")
+            st.metric("Searchable handbook sections", collection_count())
+            build_limit = st.slider("Handbook pages to include", min_value=10, max_value=50, value=30)
+            if st.button("Update knowledge base", use_container_width=True):
+                with st.spinner("Preparing handbook pages for search..."):
+                    count, skipped = build_demo_index(build_limit)
+                st.session_state.index_status = {"count": count, "skipped": skipped}
+                st.rerun()
+            if "index_status" in st.session_state:
+                status = st.session_state.index_status
+                st.success(f"Knowledge base ready: {status['count']} searchable sections.")
+                if status["skipped"]:
+                    with st.expander(f"Skipped {len(status['skipped'])} unavailable pages"):
+                        for item in status["skipped"]:
+                            st.write(item)
+        with st.expander("Technical details"):
+            debug_llm = st.checkbox("Show connection diagnostics", value=False)
+            provider = os.getenv("RAG_LLM_PROVIDER", "vercel")
+            default_model = "command-a-plus-05-2026" if provider == "cohere" else ""
+            model = os.getenv(f"{provider.upper()}_MODEL", default_model)
+            key_name = {"cohere": "COHERE_API_KEY", "vercel": "AI_GATEWAY_API_KEY",
+                        "openai": "OPENAI_API_KEY", "huggingface": "HF_TOKEN"}.get(provider)
+            has_key = bool(os.getenv(key_name)) if key_name else False
+            st.write(f"Provider: `{provider}`")
+            if model:
+                st.write(f"Model: `{model}`")
+            if key_name:
+                st.write(f"{key_name} loaded: `{'yes' if has_key else 'no'}`")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -199,7 +227,7 @@ def queue_follow_up(question: str) -> None:
 
 
 def retry_last_answer(message_index: int, question: str) -> None:
-    st.session_state.messages = st.session_state.messages[:message_index - 1]
+    st.session_state.pending_retry = message_index
     st.session_state.pending_question = question
 
 
@@ -242,14 +270,15 @@ def render_answer(message: dict, message_index: int) -> None:
                 st.markdown(f"**[{idx}] [{source['title']}]({source['source']})**")
                 st.write(source["text"][:900])
     actions = st.columns([1.3, 1.5, 1.4, 3], gap="small")
-    vote_key = f"feedback-{message_index}-{message['latency_ms']}"
-    voted = vote_key in st.session_state
-    for col, label, rating in [(actions[0], "Helpful", "up"), (actions[1], "Not helpful", "down")]:
-        if col.button(label, key=f"{rating}-{vote_key}", disabled=voted):
-            record_feedback(message["question"], message["content"], rating, message["latency_ms"])
-            st.session_state[vote_key] = rating
-            st.toast("Thanks for your feedback.")
-            st.rerun()
+    if not DEMO_MODE:
+        vote_key = f"feedback-{message_index}-{message['latency_ms']}"
+        voted = vote_key in st.session_state
+        for col, label, rating in [(actions[0], "Helpful", "up"), (actions[1], "Not helpful", "down")]:
+            if col.button(label, key=f"{rating}-{vote_key}", disabled=voted):
+                record_feedback(message["question"], message["content"], rating, message["latency_ms"])
+                st.session_state[vote_key] = rating
+                st.toast("Thanks for your feedback.")
+                st.rerun()
     if message_index == len(st.session_state.messages) - 1:
         actions[2].button(
             "Try again", key=f"retry-{message_index}",
@@ -283,6 +312,17 @@ if "pending_question" in st.session_state:
     question = st.session_state.pop("pending_question")
 
 if question:
+    denial = admit_question(st.session_state)
+    if denial:
+        st.session_state.pop("pending_retry", None)
+        st.info(denial)
+        st.stop()
+    if DEMO_MODE:
+        remaining = max(0, question_limit() - st.session_state.get("demo_questions", 0))
+        quota_status.caption(f"Public demo · {remaining} questions remaining")
+    retry_index = st.session_state.pop("pending_retry", None)
+    if retry_index is not None:
+        st.session_state.messages = st.session_state.messages[:retry_index - 1]
     history = recent_history(st.session_state.messages)
     st.session_state.messages.append({"role": "user", "content": question})
     with st.chat_message("user"):
