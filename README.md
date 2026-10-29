@@ -1,32 +1,108 @@
-# Enterprise Knowledge Assistant
+# EKasistant
 
-RAG-powered search across organizational documentation. This demo uses GitLab's publicly available handbook as the knowledge base and answers questions with source passages.
+**Your shortcut to answers in the company handbook.**
 
-## What It Does
+EKasistant is an enterprise knowledge assistant that helps people find information, understand company processes, and turn guidance into practical next steps—without searching through pages of documentation.
 
-- Loads a small curated set of GitLab handbook pages.
-- Chunks text and embeds it with `sentence-transformers`.
-- Stores vectors in ChromaDB.
-- Retrieves top-k relevant passages for each question.
-- Uses Vercel AI Gateway by default to generate grounded answers with citations.
-- Shows supporting source passages.
-- Falls back to an extractive answer when no hosted/local LLM is configured.
-- Captures thumbs up/down feedback in `feedback.csv`.
-- Tracks response latency in the UI.
-- Evaluates retrieval with Recall@k on 15 manually created questions.
+This demo uses selected pages from **GitLab’s public handbook**. Ask a question in everyday language, read a clear answer, and open the original sources to learn more.
 
-## Quick Start
+## Try the live app
+
+**[Open EKasistant →](https://ekassistant-ma9ahil.streamlit.app/)**
+
+The app is hosted on Streamlit. You can try it in your browser without installing anything.
+
+## Demo video
+
+*Demo video coming soon.*
+
+To add your video here, edit this README on GitHub and drag a short recording into the editor, or replace this paragraph with a link to your video.
+
+<!-- Replace the placeholder above with your uploaded video URL or a link such as:
+[Watch the EKasistant demo](YOUR_VIDEO_URL)
+-->
+
+## What can EKasistant do?
+
+| Feature | What it means for you |
+| --- | --- |
+| **Ask in your own words** | Ask about company practices, product principles, communication, and team responsibilities. |
+| **Answers from the handbook** | The assistant searches the selected handbook pages before generating an answer. |
+| **Clickable sources** | Open numbered citations to see the original handbook page. Full supporting text stays tucked inside **Sources and passages**. |
+| **Conversational follow-ups** | Ask “Can you explain that?” without repeating the whole topic. The assistant uses the last three exchanges for context. |
+| **Two answer styles** | Choose **Summarized answer** for an AI explanation or **Handbook excerpts** for selected sentences from the handbook. |
+| **Optional general AI knowledge** | With Cohere, the assistant can offer general guidance when the handbook cannot answer. Turn this off for handbook-only answers. |
+| **Clear answer labels** | Handbook answers and general AI guidance are clearly distinguished. General guidance includes a short reminder to verify important details. |
+| **Closest matches** | When handbook-only answers cannot resolve your question, related pages may be suggested to help you continue searching. |
+| **One-click next steps** | Use **Explain more simply** or **Show practical steps** to continue the conversation. |
+| **Try again** | Replace the latest answer without retyping your question. |
+| **Adjustable search coverage** | Choose how many handbook sections the assistant searches for supporting information. |
+| **Manage the knowledge base** | Choose how many handbook pages to include and prepare them for search from the sidebar. |
+| **Helpful / Not helpful feedback** | Rate an answer once to help identify what needs improvement. |
+| **Automatic scrolling** | New answers scroll into view, with support for reduced-motion preferences. |
+| **Fresh conversations** | **New conversation** clears the chat and its remembered context. |
+| **Response time and diagnostics** | See how long an answer took. Optional connection details help troubleshoot problems. |
+
+## Getting started
+
+1. Open [EKasistant](https://ekassistant-ma9ahil.streamlit.app/).
+2. Pick a suggested topic or type your own question.
+3. Read the answer and open its source links if you want to check the details.
+4. Ask a follow-up or choose one of the next-step buttons.
+
+A few questions to try:
+
+- “What are GitLab’s product principles?”
+- “How does GitLab approach asynchronous communication?”
+- “What are Customer Support responsibilities?”
+- Follow up with “Can you explain that more simply?”
+
+If the handbook has not been loaded yet, open **Manage knowledge base**, choose **Handbook pages to include**, and select **Update knowledge base**.
+
+## Make the answers work for you
+
+Under **Answer preferences**:
+
+- **Search coverage** controls how many handbook sections are searched for each question.
+- **Answer style** switches between an AI summary and selected handbook sentences.
+- **Allow general AI knowledge** lets Cohere offer broader guidance when the handbook does not answer. Switch it off if you only want handbook information.
+
+Under **Manage knowledge base**, include more handbook pages to broaden the available information. Updating replaces the current searchable collection.
+
+## Understanding the answers
+
+**Handbook answers** use the information found in the selected GitLab pages and include numbered citations.
+
+**General AI knowledge** comes from the model’s learned knowledge, rather than verified handbook information or a live web search. It is labeled separately and may be inaccurate or out of date.
+
+This is a demonstration using a selection of public pages, not GitLab’s official assistant or a complete copy of its handbook.
+
+## Conversation history and feedback
+
+The conversation remains visible during your session, but only the last three exchanges are used to understand follow-ups. History is not saved as a permanent chat archive. Select **New conversation** to start fresh.
+
+When you submit feedback, the app records the question, answer, rating, and response time in a local feedback file. For AI-generated answers, your question and recent context are sent to the configured AI service.
+
+## Run your own copy
+
+The live app is the easiest way to try EKasistant. The instructions below are for someone setting up their own copy on a computer.
+
+### 1. Install the app
+
+Open a terminal in the downloaded project folder:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 cp .env.example .env
-python scripts/ingest.py --limit 40
-.venv/bin/python -m streamlit run app/streamlit_app.py
 ```
 
-To generate answers with Cohere, set these values in `.env`:
+On Windows, activate the environment with `.venv\Scripts\activate` instead.
+
+### 2. Connect Cohere
+
+A Cohere API key connects the app to the service that writes AI answers. Add these settings to your local `.env` file:
 
 ```dotenv
 RAG_LLM_PROVIDER=cohere
@@ -35,120 +111,62 @@ COHERE_MODEL=command-a-plus-05-2026
 COHERE_MAX_TOKENS=4096
 ```
 
-Install the requirements and restart Streamlit, then select **Auto**. Retrieval
-still uses the existing sentence embeddings and Chroma index. The app puts the
-question and numbered retrieved passages into the user message sent to
-`cohere.ClientV2.chat`, requests citations such as `[1]`, and displays the text
-blocks from `response.message.content`. Missing credentials, API errors, or empty
-responses show an explicit retrieval fallback with diagnostics. No index rebuild
-is needed when switching the generation provider.
-
-For deployed generation, create a Vercel AI Gateway key and set:
+### 3. Start the app
 
 ```bash
-RAG_LLM_PROVIDER=vercel
-AI_GATEWAY_API_KEY=your_vercel_ai_gateway_key
-VERCEL_AI_MODEL=inclusionai/ling-3.1-flash-free
+python -m streamlit run app/streamlit_app.py
 ```
 
-`VERCEL_AI_MODEL` must name a currently available gateway model. The previously
-configured `inclusionai/ling-3.1-flash-free` now returns HTTP 404 because its free
-tier ended. Choose a replacement and check its pricing before updating `.env`.
-Set `VERCEL_AI_MAX_TOKENS=4096` (the default) to leave room for reasoning and a
-final answer. In the app, select **Auto** to use the configured model. If generation
-fails, the app shows a warning; enable **Show LLM diagnostics** to see the reason.
+Open the local address shown in the terminal. In the sidebar, use **Manage knowledge base → Update knowledge base** to load handbook pages.
 
-For free local generation with Ollama instead:
+Restart the app after changing its Python code; automatic code watching is disabled in this project.
+
+## Deploy your own app
+
+The existing deployment is available at **[ekassistant-ma9ahil.streamlit.app](https://ekassistant-ma9ahil.streamlit.app/)**.
+
+To publish your own copy on Streamlit Community Cloud:
+
+1. Put the project in a GitHub repository.
+2. Create a Streamlit app connected to that repository.
+3. Set the app’s main file to `app/streamlit_app.py`.
+4. Add the following in the app’s **Secrets** settings, replacing the API key placeholder:
+
+   ```toml
+   RAG_LLM_PROVIDER = "cohere"
+   COHERE_API_KEY = "your_cohere_api_key"
+   COHERE_MODEL = "command-a-plus-05-2026"
+   COHERE_MAX_TOKENS = 4096
+   ```
+
+5. Deploy, open the app, and select **Manage knowledge base → Update knowledge base**.
+
+Keep real API keys in local `.env` or Streamlit Secrets, rather than in the README or committed code. If the hosted app loses its local search data after a restart, use **Update knowledge base** again.
+
+## For developers
+
+EKasistant uses Streamlit for the interface, sentence-transformers to find related text, and ChromaDB to store searchable handbook sections. Cohere generates the answers in the configuration above. The code also supports Vercel AI Gateway, OpenAI, Hugging Face, Ollama, and a handbook-excerpts-only mode (`RAG_LLM_PROVIDER=none`). Other providers have their own configuration; general-knowledge fallback is implemented for Cohere.
+
+| Location | Purpose |
+| --- | --- |
+| `app/streamlit_app.py` | Chat interface and user controls. |
+| `app/assets/styles.css` | Visual styling. |
+| `rag/` | Loads handbook pages, searches them, manages conversation context, and generates answers. |
+| `data/gitlab_seed_urls.txt` | The list of handbook pages available to load. Add URLs here to extend the demo collection. |
+| `scripts/ingest.py` | Prepares handbook pages for search from the command line. |
+| `scripts/evaluate.py` | Checks whether searches find the expected handbook pages. |
+| `tests/` | Automated checks for answer generation and conversation behavior. |
+
+Run the checks:
 
 ```bash
-ollama pull llama3.2:3b
-ollama serve
+python -m unittest discover -s tests -v
 ```
 
-Without a hosted/local LLM, retrieval and source display still work with an extractive fallback.
-
-Other modes:
-
-```bash
-RAG_LLM_PROVIDER=vercel       # deployed demo, requires AI_GATEWAY_API_KEY
-RAG_LLM_PROVIDER=huggingface  # optional, requires HF_TOKEN and supported model
-RAG_LLM_PROVIDER=ollama       # local model, requires Ollama running
-RAG_LLM_PROVIDER=none         # extractive-only, no LLM
-RAG_LLM_PROVIDER=openai       # optional, requires OPENAI_API_KEY
-```
-
-## Evaluate Retrieval
+Evaluate handbook search after loading the knowledge base:
 
 ```bash
 python scripts/evaluate.py --k 5
 ```
 
-The evaluation checks whether the expected handbook page appears in the top-k retrieved sources for each question.
-
-## Project Structure
-
-```text
-app/streamlit_app.py        Streamlit chat UI
-rag/                        Loading, chunking, vector search, answer generation
-scripts/ingest.py           GitLab handbook ingestion
-scripts/evaluate.py         Recall@k retrieval evaluation
-data/gitlab_seed_urls.txt   Curated demo corpus
-data/eval/questions.csv     Manual evaluation set
-```
-
-## Deployment
-
-For Streamlit Community Cloud:
-
-1. Push this repo to GitHub.
-2. Create a new Streamlit app from the repository.
-3. Set the app entry point to `app/streamlit_app.py`.
-4. Add `RAG_LLM_PROVIDER="vercel"`, `AI_GATEWAY_API_KEY`, and `VERCEL_AI_MODEL` in Streamlit secrets.
-5. Open the app and use **Build demo index** in the sidebar, or run `python scripts/ingest.py --limit 40` before launching locally.
-
-## Demo Knowledge Base
-
-GitLab's public handbook is used only as a realistic open documentation corpus for demonstrating enterprise knowledge retrieval. Start with 30-50 pages, then expand the seed URL list as needed.
-
-## Local Transformers imports
-
-The Streamlit configuration disables source watching to avoid inspecting lazy
-Transformers modules, which can trigger imports of optional vision packages.
-Restart Streamlit after changing Python source. Retrieval uses a text embedding
-model; a normal import and offline retrieval work without `torchvision` in the
-project virtual environment. Launch Streamlit with that same environment using
-the command above.
-
-## Conversation context
-
-The assistant uses the last three exchanges from the current Streamlit session to
-understand follow-up questions. Short follow-ups also include recent user topics
-when searching the handbook. Earlier answers are context, while the current
-handbook passages supply the evidence and citation numbers. The full chat remains
-visible, but only the recent window is sent with each request (up to 2,000
-characters per message). **New conversation** clears the chat and its context.
-This history is session-only and is not saved across browser sessions.
-
-## General-knowledge answers
-
-Cohere first tries the retrieved handbook evidence. If the handbook cannot answer,
-it makes a separate request using the model's general knowledge; if there are no
-relevant search results, it goes directly to that request. These responses are
-labeled **General AI knowledge — not verified against GitLab’s handbook** and ask
-readers to verify important details independently. Related handbook pages are not
-presented as evidence for the general answer. This is model knowledge, not a web
-search. Handbook-only excerpts remain available through the answer preferences.
-A new answer automatically scrolls into view; ordinary reruns do not trigger scrolling.
-
-## Conversation usability
-
-- **Allow general AI knowledge** controls whether Cohere can go beyond the handbook.
-- **Try again** replaces the latest answer using the same question and prior context.
-- **Explain more simply** and **Show practical steps** continue the conversation.
-- Numbered handbook citations open the retrieved source directly; full excerpts stay collapsed.
-- **Helpful** / **Not helpful** saves one rating per answer.
-- Automatic scrolling respects the system's reduced-motion setting.
-
-These choices apply the correction, contextual suggestions, transparency, feedback,
-and user-control guidance in [Microsoft's Human-AI Interaction guidelines](https://www.microsoft.com/en-us/haxtoolkit/ai-guidelines/)
-and [Nielsen Norman Group's chatbot design guidance](https://www.nngroup.com/articles/ai-chatbots-design-guidelines/).
+The interface draws on [Microsoft’s Human-AI Interaction guidelines](https://www.microsoft.com/en-us/haxtoolkit/ai-guidelines/) and [Nielsen Norman Group’s chatbot design guidance](https://www.nngroup.com/articles/ai-chatbots-design-guidelines/), particularly clear expectations, source visibility, easy correction, and user control.
