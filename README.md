@@ -18,26 +18,66 @@ This demo uses selected pages from **GitLab’s public handbook**. Ask a questio
 
 The app is hosted on Streamlit. You can try it in your browser without installing anything.
 
-## What can EKassistant do?
+## Core features
 
-| Feature | What it means for you |
+| Feature | What it does |
 | --- | --- |
-| **Ask in your own words** | Ask about company practices, product principles, communication, and team responsibilities. |
-| **Answers from the handbook** | The assistant searches the selected handbook pages before generating an answer. |
-| **Clickable sources** | Open numbered citations to see the original handbook page. Full supporting text stays tucked inside **Sources and passages**. |
-| **Conversational follow-ups** | Ask “Can you explain that?” without repeating the whole topic. The assistant uses the last three exchanges for context. |
-| **Two answer styles** | Choose **Summarized answer** for an AI explanation or **Handbook excerpts** for selected sentences from the handbook. |
-| **Optional general AI knowledge** | With Cohere, the assistant can offer general guidance when the handbook cannot answer. Turn this off for handbook-only answers. |
-| **Clear answer labels** | Handbook answers and general AI guidance are clearly distinguished. General guidance includes a short reminder to verify important details. |
-| **Closest matches** | When handbook-only answers cannot resolve your question, related pages may be suggested to help you continue searching. |
-| **One-click next steps** | Use **Explain more simply** or **Show practical steps** to continue the conversation. |
-| **Try again** | Replace the latest answer without retyping your question. |
-| **Adjustable search coverage** | Choose how many handbook sections the assistant searches for supporting information. |
-| **Ready on first visit** | The bundled public handbook search snapshot loads automatically after a restart. |
-| **Public demo protection** | Five questions per session, a short cooldown, hidden management controls, and a shared AI-call cap. |
-| **Automatic scrolling** | New answers scroll into view, with support for reduced-motion preferences. |
-| **Fresh conversations** | **New conversation** clears the chat and its remembered context. |
-| **Response time** | See how long an answer took. Local development mode also offers optional diagnostics and feedback. |
+| **Handbook answers** | Finds relevant GitLab information and summarizes it, or shows handbook excerpts. |
+| **Verifiable sources** | Click numbered citations; expand the original passages when needed. |
+| **Conversation context** | Uses the last three exchanges to understand follow-up questions. |
+| **Labeled general guidance** | Optional Cohere fallback, clearly distinguished from handbook information. |
+| **Ready on first visit** | Restores bundled search data automatically after a restart. |
+| **Protected public demo** | Session limits, a shared AI-call cap, hidden management controls, and no feedback-file collection. |
+
+## Retrieval evaluation
+
+Measured on **25 manually labeled questions**, against the shipped snapshot of **970 sections from 23 pages**, using a fresh temporary Chroma database. No Cohere calls are involved.
+
+| Retrieval strategy | Hit@5 | MRR@5 |
+| --- | ---: | ---: |
+| Before: similarity ranking | **76.0% (19/25)** | **0.6200** |
+| After: one best section per source page | **76.0% (19/25)** | **0.6233** |
+
+**Hit@5** asks whether the reference page appears among the first five results. **MRR@5** rewards finding it earlier, with zero credit for a miss. Both strategies use the same 25 nearest candidate sections, embedding model, corpus, and question labels; only selection of the final five changes.
+
+The source-diversity experiment improves the security-handbook question from rank **4 → 3**. The overall gain is small (**+0.0033 MRR**, no hit-rate gain), so similarity ranking remains the default: limiting every page to one section could discard useful detail. Set `RAG_RETRIEVAL_STRATEGY=source_diversity` to try the alternative.
+
+All six misses reference pages absent from this snapshot. On the 19 questions whose reference pages are present, both strategies achieve **100% Hit@5**; MRR@5 is **0.8158 → 0.8202**. The full-set score above keeps these missing-page cases in the denominator. Expanding corpus coverage is the clearest next step.
+
+These are development-set retrieval results, not a held-out benchmark or a measure of answer correctness. Each question has one reference URL; another page may also answer it. The generation prompt currently includes only the first four results; Hit@4 is also **76%** for both strategies. See the [question set](data/eval/questions.csv), [per-question results and input hashes](data/eval/results.json), and [evaluation methodology](data/eval/README.md).
+
+Reproduce the comparison without changing the app’s database:
+
+```bash
+python scripts/evaluate.py --k 5 --strategy compare --output data/eval/results.json
+```
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[Public GitLab pages] --> B[Ingest]
+    B --> C[Chunk: 1100 characters<br/>180-character overlap]
+    C --> D[Embed: MiniLM<br/>384 dimensions]
+    D --> E[(Chroma)]
+    E --> F[Retrieve and select]
+    Q[Question + recent context] --> F
+    F --> G[Prompt: up to 4 cited passages]
+    G --> H[Cohere]
+    H --> I[Cited handbook answer]
+    H -. Handbook cannot answer .-> J[Optional general-knowledge request]
+    J --> K[Labeled general guidance]
+```
+
+| Decision | Rationale and tradeoff |
+| --- | --- |
+| **1,100-character sections, 180-character overlap** | A practical starting point for short, locally searchable excerpts; overlap preserves some context at boundaries. Paragraphs are kept together when possible. These values have not been optimized in a chunk-size ablation. |
+| **`all-MiniLM-L6-v2` embeddings** | A compact model that runs locally on CPU, avoiding a paid embedding API. Its [model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) documents 384-dimensional vectors and a 256-word-piece input limit; character-based chunks can still exceed that limit and be truncated. |
+| **Chroma with cosine distance** | A local vector database keeps the demo simple. A portable snapshot supplies precomputed document vectors; queries use the same embedding model. The evaluator restores that exact snapshot into an isolated database. |
+| **Small, explicit generation context** | The prompt includes up to four passages, capped at 700 characters each, plus the last three exchanges. This bounds request size, but may omit useful evidence. Earlier answers are context, not sources. |
+| **Separate general-knowledge fallback** | Cohere first tries the handbook. If it cannot answer, an optional second request produces labeled general guidance without treating handbook links as supporting evidence. |
+
+The chunk size, passage limits, and relevance threshold are demo heuristics, not validated production settings. The current evaluation covers page retrieval; groundedness, citation accuracy, and multi-turn answer quality still need a separate evaluation.
 
 ## Getting started
 
@@ -80,6 +120,20 @@ The conversation remains visible during your session, but only the last three ex
 The public demo disables feedback collection and does not write questions or answers to a feedback file. Chat messages are held in session memory. For AI-generated answers, your question and recent context are sent to Cohere; provider-side retention is governed by its terms.
 
 In local development mode (`DEMO_MODE=false`), **Helpful / Not helpful** feedback writes the timestamp, question, answer, rating, and response time to `feedback.csv`. This file is ignored by Git and is not a durable storage service on Streamlit Cloud.
+
+<details>
+<summary>More interaction features</summary>
+
+- **Explain more simply** and **Show practical steps** continue the conversation.
+- **Try again** replaces the latest answer without retyping the question.
+- **Search coverage** changes how many results are selected for an answer.
+- **Closest matches** suggests related pages when handbook-only answers cannot resolve a question.
+- **New conversation** clears chat context, while preserving demo usage counts.
+- New answers scroll into view, respecting reduced-motion preferences.
+- Answer labels and response times remain visible; technical diagnostics stay hidden in the public demo.
+- Local development mode supports one **Helpful / Not helpful** rating per answer and knowledge-base management.
+
+</details>
 
 ## Run your own copy
 
@@ -185,10 +239,10 @@ Run the checks:
 python -m unittest discover -s tests -v
 ```
 
-Evaluate handbook search after loading the knowledge base:
+Evaluate retrieval against the bundled snapshot (no separate ingestion required):
 
 ```bash
-python scripts/evaluate.py --k 5
+python scripts/evaluate.py --k 5 --strategy compare --output data/eval/results.json
 ```
 
 The interface draws on [Microsoft’s Human-AI Interaction guidelines](https://www.microsoft.com/en-us/haxtoolkit/ai-guidelines/) and [Nielsen Norman Group’s chatbot design guidance](https://www.nngroup.com/articles/ai-chatbots-design-guidelines/), particularly clear expectations, source visibility, easy correction, and user control.

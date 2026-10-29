@@ -1,0 +1,700 @@
+{
+  "evaluated_at_utc": "2026-10-29T15:07:52.030303+00:00",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "chunk_count": 970,
+  "source_count": 23,
+  "candidate_count": 25,
+  "questions_sha256": "73f29b6bd9ba64807b1e0879deb8152856d6ef14fdb33edf96552a83c768b0d3",
+  "snapshot_sha256": "f7cc6ca24a7fc46de39208eed52230539190dc393fb38c3ea0185057668bf892",
+  "versions": {
+    "chromadb": "1.5.9",
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.18.0"
+  },
+  "strategies": {
+    "similarity": {
+      "all_questions": {
+        "questions": 25,
+        "k": 5,
+        "hits": 19,
+        "hit_at_k": 0.76,
+        "mrr_at_k": 0.62,
+        "hit_at_4": 0.76
+      },
+      "covered_questions": {
+        "questions": 19,
+        "k": 5,
+        "hits": 19,
+        "hit_at_k": 1.0,
+        "mrr_at_k": 0.8157894736842105,
+        "hit_at_4": 1.0
+      },
+      "results": [
+        {
+          "question": "What are GitLab's values?",
+          "expected_source": "https://handbook.gitlab.com/handbook/values/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/engineering/"
+          ]
+        },
+        {
+          "question": "How does GitLab describe asynchronous communication?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/asynchronous/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/communication/"
+          ]
+        },
+        {
+          "question": "What are GitLab's guidelines for remote meetings?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/"
+          ]
+        },
+        {
+          "question": "How should informal communication work in an all-remote company?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/"
+          ]
+        },
+        {
+          "question": "What is the handbook-first approach?",
+          "expected_source": "https://handbook.gitlab.com/handbook/handbook-usage/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/product/"
+          ]
+        },
+        {
+          "question": "What are GitLab's product principles?",
+          "expected_source": "https://handbook.gitlab.com/handbook/product/product-principles/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/"
+          ]
+        },
+        {
+          "question": "How does product development flow work at GitLab?",
+          "expected_source": "https://handbook.gitlab.com/handbook/product/product-development-flow/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/product/"
+          ]
+        },
+        {
+          "question": "What does the Engineering handbook cover?",
+          "expected_source": "https://handbook.gitlab.com/handbook/engineering/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 4,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/"
+          ]
+        },
+        {
+          "question": "What does the Quality department focus on?",
+          "expected_source": "https://handbook.gitlab.com/handbook/engineering/quality/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/sales/"
+          ]
+        },
+        {
+          "question": "What is covered by GitLab's security handbook?",
+          "expected_source": "https://handbook.gitlab.com/handbook/security/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 4,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/security/security-assurance/",
+            "https://handbook.gitlab.com/handbook/security/security-assurance/",
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/security/",
+            "https://handbook.gitlab.com/handbook/security/"
+          ]
+        },
+        {
+          "question": "What does Business Technology or IT support?",
+          "expected_source": "https://handbook.gitlab.com/handbook/business-technology/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+            "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/"
+          ]
+        },
+        {
+          "question": "Where can I find People Group onboarding information?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+            "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/"
+          ]
+        },
+        {
+          "question": "How does GitLab handle expenses?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/expenses/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/finance/"
+          ]
+        },
+        {
+          "question": "What does Customer Success do?",
+          "expected_source": "https://handbook.gitlab.com/handbook/customer-success/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/sales/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/"
+          ]
+        },
+        {
+          "question": "What are Customer Support responsibilities?",
+          "expected_source": "https://handbook.gitlab.com/handbook/support/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/support/"
+          ]
+        },
+        {
+          "question": "What does iteration mean in GitLab's values?",
+          "expected_source": "https://handbook.gitlab.com/handbook/values/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/"
+          ]
+        },
+        {
+          "question": "How should I prepare an agenda before a remote meeting?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/"
+          ]
+        },
+        {
+          "question": "How much time should a new GitLab team member spend on onboarding?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/"
+          ]
+        },
+        {
+          "question": "What is the purpose of GitLab's Talent Development team?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/learning-and-development/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/people-group/learning-and-development/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/values/"
+          ]
+        },
+        {
+          "question": "Who can propose reverting a merge request in GitLab's engineering workflow?",
+          "expected_source": "https://handbook.gitlab.com/handbook/engineering/workflow/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/engineering/workflow/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/engineering/workflow/",
+            "https://handbook.gitlab.com/handbook/engineering/workflow/"
+          ]
+        },
+        {
+          "question": "What is the mission of GitLab's Security Assurance team?",
+          "expected_source": "https://handbook.gitlab.com/handbook/security/security-assurance/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/security/",
+            "https://handbook.gitlab.com/handbook/security/security-assurance/",
+            "https://handbook.gitlab.com/handbook/security/",
+            "https://handbook.gitlab.com/handbook/security/security-assurance/",
+            "https://handbook.gitlab.com/handbook/security/"
+          ]
+        },
+        {
+          "question": "Which team implements specialized applications for GitLab's business processes?",
+          "expected_source": "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+            "https://handbook.gitlab.com/handbook/business-technology/"
+          ]
+        },
+        {
+          "question": "Which teams make up GitLab's Finance department?",
+          "expected_source": "https://handbook.gitlab.com/handbook/finance/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/sales/"
+          ]
+        },
+        {
+          "question": "What framework guides GitLab's product development processes?",
+          "expected_source": "https://handbook.gitlab.com/handbook/product/product-processes/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/engineering/"
+          ]
+        },
+        {
+          "question": "Why does GitLab encourage informal communication between remote coworkers?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/"
+          ]
+        }
+      ]
+    },
+    "source_diversity": {
+      "all_questions": {
+        "questions": 25,
+        "k": 5,
+        "hits": 19,
+        "hit_at_k": 0.76,
+        "mrr_at_k": 0.6233333333333334,
+        "hit_at_4": 0.76
+      },
+      "covered_questions": {
+        "questions": 19,
+        "k": 5,
+        "hits": 19,
+        "hit_at_k": 1.0,
+        "mrr_at_k": 0.8201754385964912,
+        "hit_at_4": 1.0
+      },
+      "results": [
+        {
+          "question": "What are GitLab's values?",
+          "expected_source": "https://handbook.gitlab.com/handbook/values/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/communication/"
+          ]
+        },
+        {
+          "question": "How does GitLab describe asynchronous communication?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/asynchronous/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/sales/"
+          ]
+        },
+        {
+          "question": "What are GitLab's guidelines for remote meetings?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/"
+          ]
+        },
+        {
+          "question": "How should informal communication work in an all-remote company?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/"
+          ]
+        },
+        {
+          "question": "What is the handbook-first approach?",
+          "expected_source": "https://handbook.gitlab.com/handbook/handbook-usage/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/sales/"
+          ]
+        },
+        {
+          "question": "What are GitLab's product principles?",
+          "expected_source": "https://handbook.gitlab.com/handbook/product/product-principles/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/engineering/"
+          ]
+        },
+        {
+          "question": "How does product development flow work at GitLab?",
+          "expected_source": "https://handbook.gitlab.com/handbook/product/product-development-flow/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/engineering/development/"
+          ]
+        },
+        {
+          "question": "What does the Engineering handbook cover?",
+          "expected_source": "https://handbook.gitlab.com/handbook/engineering/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 4,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/"
+          ]
+        },
+        {
+          "question": "What does the Quality department focus on?",
+          "expected_source": "https://handbook.gitlab.com/handbook/engineering/quality/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/sales/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/"
+          ]
+        },
+        {
+          "question": "What is covered by GitLab's security handbook?",
+          "expected_source": "https://handbook.gitlab.com/handbook/security/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 3,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/security/security-assurance/",
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/security/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/finance/"
+          ]
+        },
+        {
+          "question": "What does Business Technology or IT support?",
+          "expected_source": "https://handbook.gitlab.com/handbook/business-technology/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/values/"
+          ]
+        },
+        {
+          "question": "Where can I find People Group onboarding information?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+            "https://handbook.gitlab.com/handbook/people-group/"
+          ]
+        },
+        {
+          "question": "How does GitLab handle expenses?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/expenses/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/sales/"
+          ]
+        },
+        {
+          "question": "What does Customer Success do?",
+          "expected_source": "https://handbook.gitlab.com/handbook/customer-success/",
+          "reference_in_corpus": false,
+          "first_relevant_rank": null,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/sales/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/"
+          ]
+        },
+        {
+          "question": "What are Customer Support responsibilities?",
+          "expected_source": "https://handbook.gitlab.com/handbook/support/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/support/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/engineering/"
+          ]
+        },
+        {
+          "question": "What does iteration mean in GitLab's values?",
+          "expected_source": "https://handbook.gitlab.com/handbook/values/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/engineering/workflow/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/"
+          ]
+        },
+        {
+          "question": "How should I prepare an agenda before a remote meeting?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/"
+          ]
+        },
+        {
+          "question": "How much time should a new GitLab team member spend on onboarding?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/people-group/general-onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/support/"
+          ]
+        },
+        {
+          "question": "What is the purpose of GitLab's Talent Development team?",
+          "expected_source": "https://handbook.gitlab.com/handbook/people-group/learning-and-development/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/people-group/learning-and-development/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/"
+          ]
+        },
+        {
+          "question": "Who can propose reverting a merge request in GitLab's engineering workflow?",
+          "expected_source": "https://handbook.gitlab.com/handbook/engineering/workflow/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/engineering/workflow/",
+            "https://handbook.gitlab.com/handbook/values/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/support/"
+          ]
+        },
+        {
+          "question": "What is the mission of GitLab's Security Assurance team?",
+          "expected_source": "https://handbook.gitlab.com/handbook/security/security-assurance/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/security/",
+            "https://handbook.gitlab.com/handbook/security/security-assurance/",
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/",
+            "https://handbook.gitlab.com/handbook/finance/"
+          ]
+        },
+        {
+          "question": "Which team implements specialized applications for GitLab's business processes?",
+          "expected_source": "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 2,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/sales/",
+            "https://handbook.gitlab.com/handbook/product/"
+          ]
+        },
+        {
+          "question": "Which teams make up GitLab's Finance department?",
+          "expected_source": "https://handbook.gitlab.com/handbook/finance/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/finance/",
+            "https://handbook.gitlab.com/handbook/people-group/",
+            "https://handbook.gitlab.com/handbook/sales/",
+            "https://handbook.gitlab.com/handbook/business-technology/",
+            "https://handbook.gitlab.com/handbook/support/"
+          ]
+        },
+        {
+          "question": "What framework guides GitLab's product development processes?",
+          "expected_source": "https://handbook.gitlab.com/handbook/product/product-processes/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/product/product-processes/",
+            "https://handbook.gitlab.com/handbook/product/",
+            "https://handbook.gitlab.com/handbook/product/product-principles/",
+            "https://handbook.gitlab.com/handbook/engineering/",
+            "https://handbook.gitlab.com/handbook/sales/"
+          ]
+        },
+        {
+          "question": "Why does GitLab encourage informal communication between remote coworkers?",
+          "expected_source": "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+          "reference_in_corpus": true,
+          "first_relevant_rank": 1,
+          "retrieved_sources": [
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/",
+            "https://handbook.gitlab.com/handbook/communication/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/onboarding/",
+            "https://handbook.gitlab.com/handbook/company/culture/all-remote/"
+          ]
+        }
+      ]
+    }
+  }
+}

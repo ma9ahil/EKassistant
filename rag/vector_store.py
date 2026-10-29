@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import os
+
 import chromadb
 from chromadb.utils import embedding_functions
 
 from rag.config import CHROMA_DIR, COLLECTION_NAME, EMBEDDING_MODEL
 from rag.models import Chunk
+from rag.ranking import select_passages
 
 
 def get_collection(reset: bool = False):
@@ -39,11 +42,17 @@ def index_chunks(chunks: list[Chunk], reset: bool = False) -> int:
     return collection.count()
 
 
-def retrieve(query: str, top_k: int = 5) -> list[dict]:
+def retrieve(query: str, top_k: int = 5, strategy: str | None = None) -> list[dict]:
+    if top_k < 1:
+        raise ValueError("top_k must be positive")
+    strategy = strategy or os.getenv("RAG_RETRIEVAL_STRATEGY", "similarity")
+    if strategy not in {"similarity", "source_diversity"}:
+        raise ValueError(f"Unknown retrieval strategy: {strategy}")
     collection = get_collection()
-    if collection.count() == 0:
+    count = collection.count()
+    if count == 0:
         return []
-    result = collection.query(query_texts=[query], n_results=top_k)
+    result = collection.query(query_texts=[query], n_results=min(count, top_k * 5))
     docs = result.get("documents", [[]])[0]
     metas = result.get("metadatas", [[]])[0]
     distances = result.get("distances", [[]])[0]
@@ -57,4 +66,4 @@ def retrieve(query: str, top_k: int = 5) -> list[dict]:
                 "score": max(0.0, 1.0 - float(distance)),
             }
         )
-    return rows
+    return select_passages(rows, top_k, strategy)

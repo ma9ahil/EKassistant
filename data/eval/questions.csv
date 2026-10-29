@@ -1,16 +1,26 @@
-question,expected_source_hint
-What are GitLab's values?,/handbook/values/
-How does GitLab describe asynchronous communication?,/asynchronous/
-What are GitLab's guidelines for remote meetings?,/meetings/
-How should informal communication work in an all-remote company?,/informal-communication/
-What is the handbook-first approach?,/handbook-usage/
-What are GitLab's product principles?,/product-principles/
-How does product development flow work at GitLab?,/product-development-flow/
-What does the Engineering handbook cover?,/engineering/
-What does the Quality department focus on?,/engineering/quality/
-What is covered by GitLab's security handbook?,/security/
-What does Business Technology or IT support?,/business-technology/
-Where can I find People Group onboarding information?,/general-onboarding/
-How does GitLab handle expenses?,/expenses/
-What does Customer Success do?,/customer-success/
-What are Customer Support responsibilities?,/support/
+question,expected_source
+What are GitLab's values?,https://handbook.gitlab.com/handbook/values/
+How does GitLab describe asynchronous communication?,https://handbook.gitlab.com/handbook/company/culture/all-remote/asynchronous/
+What are GitLab's guidelines for remote meetings?,https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/
+How should informal communication work in an all-remote company?,https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/
+What is the handbook-first approach?,https://handbook.gitlab.com/handbook/handbook-usage/
+What are GitLab's product principles?,https://handbook.gitlab.com/handbook/product/product-principles/
+How does product development flow work at GitLab?,https://handbook.gitlab.com/handbook/product/product-development-flow/
+What does the Engineering handbook cover?,https://handbook.gitlab.com/handbook/engineering/
+What does the Quality department focus on?,https://handbook.gitlab.com/handbook/engineering/quality/
+What is covered by GitLab's security handbook?,https://handbook.gitlab.com/handbook/security/
+What does Business Technology or IT support?,https://handbook.gitlab.com/handbook/business-technology/
+Where can I find People Group onboarding information?,https://handbook.gitlab.com/handbook/people-group/general-onboarding/
+How does GitLab handle expenses?,https://handbook.gitlab.com/handbook/people-group/expenses/
+What does Customer Success do?,https://handbook.gitlab.com/handbook/customer-success/
+What are Customer Support responsibilities?,https://handbook.gitlab.com/handbook/support/
+What does iteration mean in GitLab's values?,https://handbook.gitlab.com/handbook/values/
+How should I prepare an agenda before a remote meeting?,https://handbook.gitlab.com/handbook/company/culture/all-remote/meetings/
+How much time should a new GitLab team member spend on onboarding?,https://handbook.gitlab.com/handbook/people-group/general-onboarding/
+What is the purpose of GitLab's Talent Development team?,https://handbook.gitlab.com/handbook/people-group/learning-and-development/
+Who can propose reverting a merge request in GitLab's engineering workflow?,https://handbook.gitlab.com/handbook/engineering/workflow/
+What is the mission of GitLab's Security Assurance team?,https://handbook.gitlab.com/handbook/security/security-assurance/
+Which team implements specialized applications for GitLab's business processes?,https://handbook.gitlab.com/handbook/business-technology/enterprise-applications/
+Which teams make up GitLab's Finance department?,https://handbook.gitlab.com/handbook/finance/
+What framework guides GitLab's product development processes?,https://handbook.gitlab.com/handbook/product/product-processes/
+Why does GitLab encourage informal communication between remote coworkers?,https://handbook.gitlab.com/handbook/company/culture/all-remote/informal-communication/
