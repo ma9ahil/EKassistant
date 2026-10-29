@@ -1,0 +1,10 @@
+[server]
+# Avoid scanning Transformers lazy modules for source changes.
+fileWatcherType = "none"
+
+[theme]
+primaryColor = "#4057c7"
+backgroundColor = "#f7f9fc"
+secondaryBackgroundColor = "#edf2fa"
+textColor = "#17243b"
+font = "sans serif"

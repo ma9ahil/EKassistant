@@ -1,0 +1,39 @@
+# Local credentials (keep the example configuration)
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+.aws/
+
+# Installed dependencies and Python caches
+.venv/
+venv/
+env/
+node_modules/
+.pycache/
+__pycache__/
+*.py[cod]
+
+# Generated knowledge base and local user feedback
+.chroma/
+data/raw/
+data/processed/
+feedback.csv
+
+# Test, lint, and build output
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+*.egg-info/
+*.log
+
+# Local OS and editor files
+.DS_Store
+.idea/
+*.swp
+*.swo
